@@ -7,6 +7,7 @@ var express = require("express");
 var request = require("request"); // http calls
 
 // Require all models
+// note
 var db = require("./models");
 
 var PORT = process.env.PORT || 3000;
