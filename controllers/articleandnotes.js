@@ -5,11 +5,10 @@ var express = require("express");
 var router = express.Router();
 var request = require("request");
 var cheerio = require("cheerio");
-var app = express(app);
 
 // SCRAPING 
 
-// A GET route for scraping the NYT website
+// A GET route for scraping the  website
 router.get("/scrape", function(req, res) {
     console.log("scrape ran")
     // First, we grab the body of the html with request

@@ -1,3 +1,5 @@
+
+
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
@@ -49,12 +51,15 @@ var router = express.Router();
 var router = require("./controllers/articleandnotes");
 app.use(router);
 
+
+
+
 // If deployed, use the deployed database. Otherwise use the local mongoHeadlines database
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:3000/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
 // Connect to the Mongo DB 
 mongoose.Promise = Promise;
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 
 
 
