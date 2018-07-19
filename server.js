@@ -62,7 +62,6 @@ mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 
 
-
 // Start the server
 app.listen(PORT, function() {
   console.log("Server listening on: http://localhost: " + PORT + "!");
