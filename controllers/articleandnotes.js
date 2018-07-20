@@ -18,13 +18,15 @@ router.get("/scrape", (req, res) => {
             var $ = cheerio.load(body);
             let count = 0;
 
+            console.log(body);
+
             // Grab Article 
             $(".card_content").each(function(i, element) {
                 let count = i;
                 var result = {};
             
                 // Add the text and href for each link + summary and bylines 
-
+                console.log(element);
                 result.title = $(element)
                     .children(".card_details")
                     .children(".card_headlines")
