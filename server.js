@@ -33,6 +33,7 @@ var cheerio = require("cheerio");
 app.use(logger("dev"));
 // Use body-parser for handling form submissions
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // Use express.static to serve the public folder as a static directory
 app.use(express.static("public"));
 
@@ -62,7 +63,7 @@ app.use(router);
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:3000/mongoHeadlines";
 
 // // Connect to the Mongo DB 
-mongoose.Promise = Promise;
+// mongoose.Promise = Promise;
 mongoose.connect(MONGODB_URI,{ useNewUrlParser: true });
 
 
