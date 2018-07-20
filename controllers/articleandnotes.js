@@ -82,7 +82,7 @@ router.get("/scrape", (req, res) => {
 // module.exports = function(router) {
 
 router.get("/", (req, res) => {
-    Article.find({})
+    db.Article.find({})
         .then(function (dbArticle) {
            
             var retrievedArticles = dbArticle;
@@ -97,7 +97,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/saved", (req, res) => {
-    Article.find({isSaved: true}).then(function (retrievedArticles) {
+    db.Article.find({isSaved: true}).then(function (retrievedArticles) {
             let hbsObject;
             hbsObject = { articles: retrievedArticles};
             res.render("saved", hbsObject);
@@ -109,7 +109,7 @@ router.get("/saved", (req, res) => {
 // Route for getting all Articles from the db
 router.get("/articles", function (req, res) {
     // Grab every document in the Articles collection
-    Article.find({}).then(function (dbArticle) {
+    db.Article.find({}).then(function (dbArticle) {
             res.json(dbArticle);
         }).catch(function (err) {
             res.json(err);
@@ -117,7 +117,7 @@ router.get("/articles", function (req, res) {
 });
 
 router.put("/save/:id", function (req, res) {
-    Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
         .then(function (data) {
             res.json(data);
         }).catch(function (err) {
@@ -126,7 +126,7 @@ router.put("/save/:id", function (req, res) {
 });
 
 router.put("/remove/:id", function (req, res) {
-    Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
+    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
         .then(function (data) {
             res.json(data)
         }).catch(function (err) {
@@ -136,7 +136,7 @@ router.put("/remove/:id", function (req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 router.get("/articles/:id", function (req, res) {
-    Article.find({ _id: req.params.id })
+    db.Article.find({ _id: req.params.id })
         // ..and populate all of the notes associated with it
         .populate({
             path: 'note',
@@ -154,7 +154,7 @@ router.get("/articles/:id", function (req, res) {
     router.post("/note/:id", function (req, res){
         // create
     
-        Note.create(req.body).then(function(dbNote){
+        db.Note.create(req.body).then(function(dbNote){
             return db.Article.findOneAndUpdate({
                 _id: req.paraps.id
             },{
@@ -173,7 +173,7 @@ router.get("/articles/:id", function (req, res) {
     router.delete("/note/:id", function(req,res){
         // make a note and pass to the req.body 
     
-        Note.findByIdAndRemove({ _id: req.params.id }) 
+        db.Note.findByIdAndRemove({ _id: req.params.id }) 
         .then(function(dbNote){
             return db.Article.findOneAndUpdate({
                 note: req.params.id
