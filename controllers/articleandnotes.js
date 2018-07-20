@@ -1,6 +1,6 @@
-var Note = require("../models/Note");
-var Article = require("../models/Article");
-// const db = require("../models");
+// var Note = require("../models/Note");
+// var Article = require("../models/Article");
+var db = require("../models");
 var express = require("express");
 var router = express.Router();
 var request = require("request");
