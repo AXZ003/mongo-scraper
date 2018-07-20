@@ -1,27 +1,27 @@
-var request = require("request");
-var cheerio = require("cheerio");
+// var request = require("request");
+// var cheerio = require("cheerio");
 
-var scrape = function(callback) {
+// var scrape = function(callback) {
 
-   var dbArticle = [];
+//    var dbArticle = [];
 
-   request("https://www.huffingtonpost.com/section/travel", function(error, response, html) {
+//    request("https://www.huffingtonpost.com/section/travel", function(error, response, html) {
 
-     var $ = cheerio.load(html);
+//      var $ = cheerio.load(html);
 
-     $('.card_contentg').each(function(i, element) {
+//      $('.card_content').each(function(i, element) {
 
-       var result = {};
+//        var result = {};
 
-       result.title = $(this).children("a").text();
-       result.link = $(this).children("a").attr("href");
+//        result.title = $(this).children("a").text();
+//        result.link = $(this).children("a").attr("href");
 
-       if (result.title !== "" && result.link !== "") {
-           dbArticle.push(result);
-       }
-     });
-     callback(dbArticle);
-   });
-};
+//        if (result.title !== "" && result.link !== "") {
+//            dbArticle.push(result);
+//        }
+//      });
+//      callback(dbArticle);
+//    });
+// };
 
-module.exports = scrape;
+// module.exports = scrape;

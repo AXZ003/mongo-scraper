@@ -1,6 +1,6 @@
-// var Note = require("../models/Note");
-// var Article = require("../models/Article");
-const db = require("../models");
+var Note = require("../models/Note");
+var Article = require("../models/Article");
+// const db = require("../models");
 var express = require("express");
 var router = express.Router();
 var request = require("request");
@@ -9,10 +9,11 @@ var cheerio = require("cheerio");
 // SCRAPING 
 
 // A GET route for scraping the  website
-router.get("/scrape", function(req, res) {
+// A GET route for scraping the  website
+router.get("/scrape", (req, res) => {
     console.log("scrape ran")
     // First, we grab the body of the html with request
-    request("https://www.huffingtonpost.com/section/travel", function(error, response, body) { //html
+    request("https://www.huffingtonpost.com/section/travel", (error, response, body) => { //html
         if (!error && response.statusCode === 200) {
             var $ = cheerio.load(body);
             let count = 0;
@@ -51,7 +52,7 @@ router.get("/scrape", function(req, res) {
 
                 if(result.title && result.link && result.summary){
                 
-                    db.Article.create(result)
+                    Article.create(result)
                     .then(function(dbArticle){
                         count++;
                         console.log(dbArticle);
@@ -76,13 +77,12 @@ router.get("/scrape", function(req, res) {
 
 });
 
-
 //////
 
 // module.exports = function(router) {
 
 router.get("/", (req, res) => {
-    db.Article.find({})
+    Article.find({})
         .then(function (dbArticle) {
            
             var retrievedArticles = dbArticle;
@@ -97,7 +97,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/saved", (req, res) => {
-    db.Article.find({isSaved: true}).then(function (retrievedArticles) {
+    Article.find({isSaved: true}).then(function (retrievedArticles) {
             let hbsObject;
             hbsObject = { articles: retrievedArticles};
             res.render("saved", hbsObject);
@@ -109,7 +109,7 @@ router.get("/saved", (req, res) => {
 // Route for getting all Articles from the db
 router.get("/articles", function (req, res) {
     // Grab every document in the Articles collection
-    db.Article.find({}).then(function (dbArticle) {
+    Article.find({}).then(function (dbArticle) {
             res.json(dbArticle);
         }).catch(function (err) {
             res.json(err);
@@ -117,7 +117,7 @@ router.get("/articles", function (req, res) {
 });
 
 router.put("/save/:id", function (req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
+    Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: true })
         .then(function (data) {
             res.json(data);
         }).catch(function (err) {
@@ -126,7 +126,7 @@ router.put("/save/:id", function (req, res) {
 });
 
 router.put("/remove/:id", function (req, res) {
-    db.Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
+    Article.findOneAndUpdate({ _id: req.params.id }, { isSaved: false })
         .then(function (data) {
             res.json(data)
         }).catch(function (err) {
@@ -136,7 +136,7 @@ router.put("/remove/:id", function (req, res) {
 
 // Route for grabbing a specific Article by id, populate it with it's note
 router.get("/articles/:id", function (req, res) {
-    db.Article.find({ _id: req.params.id })
+    Article.find({ _id: req.params.id })
         // ..and populate all of the notes associated with it
         .populate({
             path: 'note',
@@ -154,7 +154,7 @@ router.get("/articles/:id", function (req, res) {
     router.post("/note/:id", function (req, res){
         // create
     
-        db.Note.create(req.body).then(function(dbNote){
+        Note.create(req.body).then(function(dbNote){
             return db.Article.findOneAndUpdate({
                 _id: req.paraps.id
             },{
@@ -173,7 +173,7 @@ router.get("/articles/:id", function (req, res) {
     router.delete("/note/:id", function(req,res){
         // make a note and pass to the req.body 
     
-        db.Note.findByIdAndRemove({ _id: req.params.id }) 
+        Note.findByIdAndRemove({ _id: req.params.id }) 
         .then(function(dbNote){
             return db.Article.findOneAndUpdate({
                 note: req.params.id
