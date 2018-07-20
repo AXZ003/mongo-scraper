@@ -18,7 +18,7 @@ router.get("/scrape", (req, res) => {
             var $ = cheerio.load(body);
             let count = 0;
 
-            console.log(body);
+       
 
             // Grab Article 
             $(".card_content").each(function(i, element) {
